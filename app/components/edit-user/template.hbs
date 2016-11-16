@@ -1,0 +1,52 @@
+{{#with (changeset model validations) as |changeset|}}
+
+<div class="col-md-6">
+    {{form-group
+        type=text
+        changeset=changeset
+        label="First Name"
+        required=true
+        property="firstName"
+        validateProperty=(action validateProperty changeset "firstName")
+    }}
+</div>
+
+<div class="col-md-6">
+    {{form-group
+        type=text
+        changeset=changeset
+        label="Last Name"
+        required=true
+        property="lastName"
+        validateProperty=(action validateProperty changeset "lastName")
+    }}
+</div>
+
+<div class="col-md-6">
+    {{form-group
+        type=text
+        changeset=changeset
+        label="Country"
+        required=true
+        property="country"
+        validateProperty=(action validateProperty changeset "country")
+    }}
+</div>
+
+<div class="col-md-6">
+    {{form-group
+        type=text
+        changeset=changeset
+        label="Town"
+        required=true
+        property="town"
+        validateProperty=(action validateProperty changeset "town")
+    }}
+</div>
+
+<div class="col-md-12" style="margin-top: 25px;">
+    <button disabled={{changeset.isInvalid}} type="button" class="btn btn-primary" {{action back changeset}}>{{backText}}</button>
+    <button disabled={{changeset.isInvalid}} type="submit" class="btn btn-default" {{action save changeset}}>{{saveText}}</button>
+</div>
+
+{{/with}}

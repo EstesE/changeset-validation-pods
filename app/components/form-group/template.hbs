@@ -1,0 +1,17 @@
+<div><label class="{{if required 'control-label required' 'control-label'}}" for={{concat type "-" property}} style="margin-top: 10px; margin-bottom: 0;">{{label}}</label></div>
+<input
+  type={{type}}
+  id={{concat type "-" property}}
+  value={{get changeset property}}
+  oninput={{action (mut (get changeset property)) value="target.value"}}
+  onblur={{action validateProperty}}>
+{{#if (get changeset.error property)}}
+<div>
+  <small>
+  	<span>Error</span>
+    {{#each (get (get changeset.error property) "validation") as |message|}}
+    	<span>{{message}}</span>
+    {{/each}}
+  </small>
+</div>
+{{/if}}
