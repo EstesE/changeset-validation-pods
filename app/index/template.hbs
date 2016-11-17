@@ -1,11 +1,15 @@
 <div style="margin-top: 40px;">
     <div class="col-md-6 text-center">
         {{#link-to 'user'}}User{{/link-to}}
-        <div>Validates User (firstName & lastName)</div>
+        <div>Validates User (firstName & lastName) using userValidations.js</div>
     </div>
 
     <div class="col-md-6 text-center">
         {{#link-to 'user2'}}User{{/link-to}}
-        <div>Validates Address (country & town)</div>
+        <div>Validates User (firstName & lastName) using userValidations.js</div>
+        <div>
+            Validates Address (country & town)using userValidations.js (using <i><strong>assign</strong></i>)
+            <p><a href="https://github.com/DockYard/ember-changeset-validations#validation-composition" target="_blank">Validation-composition</a></p>
+        </div>
     </div>
 </div>
