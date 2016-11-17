@@ -11,9 +11,5 @@ export default {
   ],
   lastName: [
     validatePresence({ presence: true, message: '{description} is required'})
-  ],
-  address: {
-    country: validatePresence({ presence: true, message: '{description} is required' }),
-    town: validatePresence({ presence: true, message: '{description} is required' })
-  }
+  ]
 };
