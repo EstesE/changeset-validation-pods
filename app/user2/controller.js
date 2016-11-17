@@ -46,7 +46,7 @@ export default Ember.Controller.extend({
             console.log('reset');
         },
         validateProperty(changeset, property) {
-			debugger;
+			// debugger;
             if (Ember.get(changeset, 'isDirty')) {
                 console.log(property + ' is dirty...so we should save.');
             }

@@ -6,7 +6,7 @@
   oninput={{action (mut (get changeset property)) value="target.value"}}
   onblur={{action validateProperty}}>
 
-<div style="position: absolute;">
+<div style="position: absolute; color: red;">
   {{#if (get changeset.error property)}}
   <small>
     {{#each (get (get changeset.error property) "validation") as |message index|}}
