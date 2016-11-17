@@ -1,7 +1,7 @@
 <div class="col-md-12">{{#link-to 'application'}}Back to the root{{/link-to}}</div>
 {{edit-user2
-    user=(changeset model UserValidations)
-    address=(changeset model.address AddressValidations)
+    user=(changeset model Validations)
+    address=(changeset model.address Validations)
     save=(action "save")
     saveText='Save & Continue'
     back=(action 'back')

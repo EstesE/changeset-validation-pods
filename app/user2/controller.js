@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { userSchema } from './model';
 import UserValidations from './userValidations';
 import AddressValidations from './addressValidations';
+import Validations from './validations';
 
 const { get } = Ember;
 const { keys } = Object;
@@ -9,6 +10,7 @@ const { keys } = Object;
 export default Ember.Controller.extend({
     UserValidations,
     AddressValidations,
+    Validations,
     
     actions: {
         validate: function({ key, newValue, oldValue, changes, content }) {
