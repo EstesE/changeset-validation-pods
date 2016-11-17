@@ -4,7 +4,9 @@ import {
   validateLength,
 } from 'ember-changeset-validations/validators';
 
-export default {
+const { assign } = Ember;
+
+export const UserValidations = {
   firstName: [
     validatePresence({ presence: true, message: '{description} is required' }),
     validateLength({ min: 4 })
@@ -13,3 +15,10 @@ export default {
     validatePresence({ presence: true, message: '{description} is required'})
   ]
 };
+
+export const AddressValidations = {
+  country: validatePresence({ presence: true, message: '{description} is required' }),
+  town: validatePresence({ presence: true, message: '{description} is required' })
+};
+
+export default assign({}, UserValidations, AddressValidations);
