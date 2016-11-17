@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('user');
   this.route('automobile');
   this.route('loading');
+  this.route('user2');
 });
 
 export default Router;

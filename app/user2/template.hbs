@@ -1,10 +1,8 @@
-{{edit-user
-    model=model
+{{edit-user2
+    changeset=(changeset model.address AddressValidations)
     save=(action "save")
     saveText='Save & Continue'
     back=(action 'back')
     backText='Back' 
-    validations=UserValidations 
     validateProperty=(action "validateProperty")  
 }}
-

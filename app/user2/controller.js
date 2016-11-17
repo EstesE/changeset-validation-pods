@@ -1,12 +1,14 @@
 import Ember from 'ember';
 import { userSchema } from './model';
 import UserValidations from './userValidations';
+import AddressValidations from './addressValidations';
 
 const { get } = Ember;
 const { keys } = Object;
 
 export default Ember.Controller.extend({
     UserValidations,
+    AddressValidations,
     
     actions: {
         validate: function({ key, newValue, oldValue, changes, content }) {
@@ -44,7 +46,7 @@ export default Ember.Controller.extend({
             console.log('reset');
         },
         validateProperty(changeset, property) {
-			// debugger;
+			debugger;
             if (Ember.get(changeset, 'isDirty')) {
                 console.log(property + ' is dirty...so we should save.');
             }
