@@ -1,0 +1,8 @@
+<div class="col-md-12">{{#link-to 'application'}}Back to the root{{/link-to}}</div>
+{{edit-user3
+    changeset=(changeset model (action "validate"))
+    save=(action "save")
+    saveText='Save & Continue'
+    back=(action 'back')
+    backText='Back' 
+}}

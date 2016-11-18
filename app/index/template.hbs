@@ -1,15 +1,26 @@
 <div style="margin-top: 40px;">
     <div class="col-md-6 text-center">
         {{#link-to 'user'}}User{{/link-to}}
-        <div>Validates User (firstName & lastName) using userValidations.js</div>
+        <h4>Using: ember-changeset & ember-changeset-validations</h4>
+        <div>Validates User (firstName & lastName)</div>
     </div>
 
     <div class="col-md-6 text-center">
         {{#link-to 'user2'}}User{{/link-to}}
-        <div>Validates User (firstName & lastName) using userValidations.js</div>
+        <h4>Using: ember-changeset & ember-changeset-validations</h4>
         <div>
-            Validates Address (country & town)using userValidations.js (using <i><strong>assign</strong></i>)
-            <p><a href="https://github.com/DockYard/ember-changeset-validations#validation-composition" target="_blank">Validation-composition</a></p>
+            Validates User (firstName & lastName) using the <strong>user</strong> changeset.
+        </div>
+        <div>
+            Validates Address (country & town) using <strong>address</strong> changeset.
+        </div>
+    </div>
+
+    <div class="col-md-6 text-center">
+        {{#link-to 'user3'}}User{{/link-to}}
+        <h4>Using: ember-changeset only</h4>
+        <div>
+            No Validation. Just ember-changeset.
         </div>
     </div>
 </div>
