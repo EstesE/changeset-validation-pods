@@ -12,8 +12,6 @@ export default Ember.Component.extend({
                 if (typeof obj[property] == "object") {
                     this.iterate(obj[property], stack + '.' + property);
                 } else {
-                    console.log(property + "   " + obj[property]);
-                    // debugger;
                     ret[property] = obj[property];
                 }
             }
@@ -21,38 +19,10 @@ export default Ember.Component.extend({
         return ret;
     },
 
-    // //
-    // flattenObject: function(ob) {
-    //     var toReturn = {};
-        
-    //     for (var i in ob) {
-    //         if (!ob.hasOwnProperty(i)) continue;
-            
-    //         if ((typeof ob[i]) == 'object') {
-    //             var flatObject = this.flattenObject(ob[i]);
-    //             for (var x in flatObject) {
-    //                 if (!flatObject.hasOwnProperty(x)) continue;
-                    
-    //                 toReturn[i + '.' + x] = flatObject[x];
-    //             }
-    //         } else {
-    //             toReturn[i] = ob[i];
-    //         }
-    //     }
-    //     return toReturn;
-    // },
-    //
-
     init() {
         this._super(...arguments);
-        // var myModel = this.iterate(this.model, '');
-        // var myModel = this.flattenObject(this.model);
-        // let model = get(this, 'model');
-        // debugger;
-        // this.set('model', myModel);
         let validator = get(this, 'validate');
         var flatModel = this.get('model.flatModel');
-        this.changeset = new Changeset(flatModel, validator);        
-        // debugger;
+        this.changeset = new Changeset(flatModel, validator);
     }
 });

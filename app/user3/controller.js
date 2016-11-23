@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { userSchema } from './model';
 import Validations from './validations';
+import isBuffer from 'npm:is-buffer';
 
 const { get } = Ember;
 const { keys } = Object;
@@ -9,101 +10,119 @@ export default Ember.Controller.extend({
     Validations,
 
 
-    inflateObject: function(ob) {
-        debugger;
-        var toReturn = {};
-        
-        for (var i in ob) {
-            if (i.indexOf('$') > -1) {
-                var parts = i.split('$')
-                var value = ob[i];
-                var myObj = {};
-                var temp = {};
-                debugger;
-                var rv = {};
-                for (var k = 0; k < parts.length; ++k) {
-                    if (k === parts.length) {
-                        rv[parts[k]] = value;
-                    } else {
-                        var pre = parts[k-1];
-                        if(typeof pre != 'undefined' ){
-                            rv[pre][parts[k]] = { value };
-                        } else {
-                            rv[parts[k]] = {};
-                        }
-                    }
-                    // rv[parts] += 'test';
+    unflatten: function (target, opts) {
+        var _this = this;
+        opts = opts || {}
+
+        var delimiter = opts.delimiter || '.'
+        var overwrite = opts.overwrite || false
+        var result = {}
+
+        var isbuffer = isBuffer(target)
+        if (isbuffer || Object.prototype.toString.call(target) !== '[object Object]') {
+            return target;
+        }
+
+        // safely ensure that the key is
+        // an integer.
+        function getkey(key) {
+            var parsedKey = Number(key)
+
+            return (
+                isNaN(parsedKey) ||
+                key.indexOf('.') !== -1
+            ) ? key
+                : parsedKey
+        }
+
+        Object.keys(target).forEach(function (key) {
+            var split = key.split(delimiter)
+            var key1 = getkey(split.shift())
+            var key2 = getkey(split[0])
+            var recipient = result
+
+            while (key2 !== undefined) {
+                var type = Object.prototype.toString.call(recipient[key1])
+                var isobject = (
+                    type === "[object Object]" ||
+                    type === "[object Array]"
+                )
+
+                // do not write over falsey, non-undefined values if overwrite is false
+                if (!overwrite && !isobject && typeof recipient[key1] !== 'undefined') {
+                    return;
                 }
-                debugger;
-            } else {
-                toReturn[i] = ob[i];
+
+                if ((overwrite && !isobject) || (!overwrite && recipient[key1] == null)) {
+                    recipient[key1] = (
+                        typeof key2 === 'number' &&
+                            !opts.object ? [] : {}
+                    )
+                }
+
+                recipient = recipient[key1]
+                if (split.length > 0) {
+                    key1 = getkey(split.shift())
+                    key2 = getkey(split[0])
+                }
             }
 
-            // if (!ob.hasOwnProperty(i)) continue;
-            
-            // if ((typeof ob[i]) == 'object') {
-            //     var flatObject = this.inflateObject(ob[i]);
-            //     for (var x in flatObject) {
-            //         if (!flatObject.hasOwnProperty(x)) continue;
-            //         // toReturn[i + '.' + x] = flatObject[x];
-            //         toReturn[i + '$' + x] = flatObject[x];
-            //     }
-            // } else {
-            //     toReturn[i] = ob[i];
-            // }
-        }
-        // return toReturn;
+            // unflatten again for 'messy objects'
+            recipient[key1] = _this.unflattenObject(target[key], opts);
+        })
+
+        return result;
     },
-
-
     
     actions: {
-        validate: function({ key, newValue, oldValue, changes, content }) {
+        validate: function ({ key, newValue, oldValue, changes, content }) {
             // debugger;
-            console.log(key + ' changed from: (' + oldValue + ') to (' + newValue + ')');
+            // console.log(key + ' changed from: (' + oldValue + ') to (' + newValue + ')');
         },
-        save: function(changeset, x) {
+        save: function (changeset) {
             console.log('save');
-            debugger;
-            var inflateObject = this.inflateObject;
+            var unflattenObject = this.unflatten;
             let controller = this;
-			if (changeset && get(changeset, 'isDirty')) {
-				let snapshot = changeset.snapshot();
-                changeset.inflateObject = inflateObject;
-				return changeset
-					.cast(keys(userSchema))
-					.validate()
-					.then(() => {
-						if (get(changeset, 'isValid')) {
-							changeset.save().then((val) => {
+            if (changeset && get(changeset, 'isDirty')) {
+                let snapshot = changeset.snapshot();
+                changeset.unflattenObject = unflattenObject;
+                changeset.controller = controller;
+                return changeset
+                    .cast(keys(userSchema))
+                    .validate()
+                    .then(() => {
+                        if (get(changeset, 'isValid')) {
+                            changeset.save().then((val) => {
                                 console.log("Successfully saved");
-                                debugger;
-                                var myModel = val.inflateObject(val._content);
-                                debugger;
+                                var flatModel = val._content;
+                                var myModel = val.unflattenObject(val._content, { delimiter: "$" });
+                                Ember.set(val.controller, 'model', myModel);
+                                Ember.set(val.controller.model, 'flatModel', flatModel);
+                                delete val.controller;
                             });
-						}
-					}).catch(() => {
-						changeset.restore(snapshot).then(()=> {
+                        }
+                    }).catch(() => {
+                        changeset.restore(snapshot).then(() => {
                             console.log("Problem saving!");
                         });
-					});
-			} else {
-				console.log("Not dirty...no need to save");
-			}
+                    });
+            } else {
+                console.log("Not dirty...no need to save");
+            }
         },
-        back: function() {
+        back: function () {
             this.transitionToRoute('application');
         },
-        reset: function() {
+        reset: function () {
             console.log('reset');
         },
         validateProperty(changeset, property) {
-			// debugger;
+            // debugger;
             if (Ember.get(changeset, 'isDirty')) {
                 console.log(property + ' is dirty...so we should save.');
             }
-			console.log('Property: ' + property + ' validate: ');
-			return changeset.validate(property);
-		},
+            console.log('Property: ' + property + ' validate: ');
+            return changeset.validate(property);
+        },
     }
 });
