@@ -1,7 +1,6 @@
 # Changeset-validation-pods
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Sample Ember application using [ember-changeset](https://github.com/DockYard/ember-changeset) and [ember-changeset-validations](https://github.com/DockYard/ember-changeset-validations).
 
 ## Prerequisites
 

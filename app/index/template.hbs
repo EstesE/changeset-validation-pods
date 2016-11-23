@@ -3,6 +3,7 @@
         {{#link-to 'user'}}User{{/link-to}}
         <h4>Using: ember-changeset & ember-changeset-validations</h4>
         <div>Validates User (firstName & lastName)</div>
+        <div><strong>Not Working</strong></div>
     </div>
 
     <div class="col-md-6 text-center">
@@ -14,16 +15,15 @@
         <div>
             Validates Address (country & town) using <strong>address</strong> changeset.
         </div>
+        <div><strong>Not Working</strong></div>
     </div>
 
     <div class="col-md-6 text-center">
         {{#link-to 'user3'}}User{{/link-to}}
         <h4>Using: ember-changeset & ember-changeset-validations</h4>
         <div>
-            No Validation. Just ember-changeset.
-        </div>
-        <div>
             <strong>Flatten</strong> model then <strong>unflatten</strong> model.
         </div>
+        <div><strong>Works</strong> (flat model)</div>
     </div>
 </div>

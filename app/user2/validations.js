@@ -1,8 +1,4 @@
-import { 
-  validatePresence,
-  validateFormat,
-  validateLength,
-} from 'ember-changeset-validations/validators';
+import Ember from 'ember';
 import UserValidations from './userValidations';
 import AddressValidations from './addressValidations';
 

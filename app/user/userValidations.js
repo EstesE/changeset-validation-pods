@@ -1,6 +1,5 @@
 import { 
   validatePresence,
-  validateFormat,
   validateLength,
 } from 'ember-changeset-validations/validators';
 import addressValidations from './addressValidations';

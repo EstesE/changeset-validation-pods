@@ -10,13 +10,13 @@ export default Ember.Controller.extend({
 
     unflatten: function (target, opts) {
         var _this = this;
-        opts = opts || {}
+        opts = opts || {};
 
-        var delimiter = opts.delimiter || '.'
-        var overwrite = opts.overwrite || false
-        var result = {}
+        var delimiter = opts.delimiter || '.';
+        var overwrite = opts.overwrite || false;
+        var result = {};
 
-        var isbuffer = isBuffer(target)
+        var isbuffer = isBuffer(target);
         if (isbuffer || Object.prototype.toString.call(target) !== '[object Object]') {
             return target;
         }
@@ -24,27 +24,27 @@ export default Ember.Controller.extend({
         // safely ensure that the key is
         // an integer.
         function getkey(key) {
-            var parsedKey = Number(key)
+            var parsedKey = Number(key);
 
             return (
                 isNaN(parsedKey) ||
                 key.indexOf('.') !== -1
             ) ? key
-                : parsedKey
+                : parsedKey;
         }
 
         Object.keys(target).forEach(function (key) {
-            var split = key.split(delimiter)
-            var key1 = getkey(split.shift())
-            var key2 = getkey(split[0])
-            var recipient = result
+            var split = key.split(delimiter);
+            var key1 = getkey(split.shift());
+            var key2 = getkey(split[0]);
+            var recipient = result;
 
             while (key2 !== undefined) {
-                var type = Object.prototype.toString.call(recipient[key1])
+                var type = Object.prototype.toString.call(recipient[key1]);
                 var isobject = (
                     type === "[object Object]" ||
                     type === "[object Array]"
-                )
+                );
 
                 // do not write over falsey, non-undefined values if overwrite is false
                 if (!overwrite && !isobject && typeof recipient[key1] !== 'undefined') {
@@ -55,26 +55,25 @@ export default Ember.Controller.extend({
                     recipient[key1] = (
                         typeof key2 === 'number' &&
                             !opts.object ? [] : {}
-                    )
+                    );
                 }
 
-                recipient = recipient[key1]
+                recipient = recipient[key1];
                 if (split.length > 0) {
-                    key1 = getkey(split.shift())
-                    key2 = getkey(split[0])
+                    key1 = getkey(split.shift());
+                    key2 = getkey(split[0]);
                 }
             }
 
             // unflatten again for 'messy objects'
             recipient[key1] = _this.unflattenObject(target[key], opts);
-        })
+        });
 
         return result;
     },
     
     actions: {
-        validate: function ({ key, newValue, oldValue, changes, content }) {
-            debugger;
+        validate: function ({ key, newValue, oldValue/*, changes, content*/ }) {
             console.log(key + ' changed from: (' + oldValue + ') to (' + newValue + ')');
         },
         save: function (changeset) {

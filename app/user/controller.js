@@ -9,13 +9,12 @@ export default Ember.Controller.extend({
     UserValidations,
     
     actions: {
-        validate: function({ key, newValue, oldValue, changes, content }) {
-            debugger;
+        validate: function(/*{ key, newValue, oldValue, changes, content }*/) {
+            
         },
         save: function(changeset) {
-            debugger;
+            
             console.log('save');
-            let controller = this;
 			if (changeset && get(changeset, 'isDirty')) {
 				let snapshot = changeset.snapshot();
 
@@ -44,7 +43,6 @@ export default Ember.Controller.extend({
             console.log('reset');
         },
         validateProperty(changeset, property) {
-			// debugger;
             if (Ember.get(changeset, 'isDirty')) {
                 console.log(property + ' is dirty...so we should save.');
             }
