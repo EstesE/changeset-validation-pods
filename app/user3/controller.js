@@ -1,14 +1,12 @@
 import Ember from 'ember';
 import { userSchema } from './model';
-import Validations from './validations';
+
 import isBuffer from 'npm:is-buffer';
 
 const { get } = Ember;
 const { keys } = Object;
 
 export default Ember.Controller.extend({
-    Validations,
-
 
     unflatten: function (target, opts) {
         var _this = this;
@@ -76,8 +74,8 @@ export default Ember.Controller.extend({
     
     actions: {
         validate: function ({ key, newValue, oldValue, changes, content }) {
-            // debugger;
-            // console.log(key + ' changed from: (' + oldValue + ') to (' + newValue + ')');
+            debugger;
+            console.log(key + ' changed from: (' + oldValue + ') to (' + newValue + ')');
         },
         save: function (changeset) {
             console.log('save');
@@ -113,8 +111,8 @@ export default Ember.Controller.extend({
         back: function () {
             this.transitionToRoute('application');
         },
-        reset: function () {
-            console.log('reset');
+        reset: function (changeset) {
+            return changeset.rollback();
         },
         validateProperty(changeset, property) {
             // debugger;

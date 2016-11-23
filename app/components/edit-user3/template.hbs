@@ -1,31 +1,90 @@
 
-<div class="col-md-6">
-    <div><label>First Name</label></div>
-    {{input type="text" value=changeset.firstName}} model value: {{model.firstName}}
+<div class="col-md-6 myInput">
+    <div>
+        <div><label>First Name</label></div>
+        {{input type="text" value=changeset.firstName}} model value: {{model.firstName}}
+        <div style="position: absolute; color: red;">
+            <small>
+                {{#each (get (get changeset '_errors.firstName') 'validation') as |message index|}}
+                    {{#if (eq index 0)}}
+                        {{message}}
+                    {{/if}}
+                {{/each}}
+            </small>
+        </div>
+    </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 myInput">
     <div><label>Last Name</label></div>
     {{input type="text" value=changeset.lastName}} model value: {{model.lastName}}
+    <div style="position: absolute; color: red;">
+        <small>
+            {{#each (get (get changeset '_errors.lastName') 'validation') as |message index|}}
+                {{#if (eq index 0)}}
+                    {{message}}
+                {{/if}}
+            {{/each}}
+        </small>
+    </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 myInput">
     <div><label>Country</label></div>
     {{input type="text" value=changeset.address$country}} model value: {{model.address.country}}
+    <div style="position: absolute; color: red;">
+        <small>
+            {{#each (get (get changeset '_errors.address$country') 'validation') as |message index|}}
+                {{#if (eq index 0)}}
+                    {{message}}
+                {{/if}}
+            {{/each}}
+        </small>
+    </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 myInput">
     <div><label>Town</label></div>
     {{input type="text" value=changeset.address$town}} model value: {{model.address.town}}
+    <div style="position: absolute; color: red;">
+        <small>
+            {{#each (get (get changeset '_errors.address$town') 'validation') as |message index|}}
+                {{#if (eq index 0)}}
+                    {{message}}
+                {{/if}}
+            {{/each}}
+        </small>
+    </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 myInput">
     <div><label>State Name</label></div>
     {{input type="text" value=changeset.address$state$name}} model value: {{model.address.state.name}}
+    <div style="position: absolute; color: red;">
+        <small>
+            {{#each (get (get changeset '_errors.address$state$name') 'validation') as |message index|}}
+                {{#if (eq index 0)}}
+                    {{message}}
+                {{/if}}
+            {{/each}}
+        </small>
+    </div>
 </div>
 
 <div class="col-md-12" style="margin-top: 25px;">
-    <button type="button" class="btn btn-primary" {{action back changeset}}>{{backText}}</button>
-    <button type="button" class="btn btn-default" {{action save changeset}}>{{saveText}}</button>
+    {{#if changeset.isInvalid}}
+        <button disabled=true type="button" class="btn btn-primary">{{backText}}</button>
+        <button disabled=true type="button" class="btn btn-default">{{saveText}}</button>
+    {{else}}
+        <button type="button" class="btn btn-primary" {{action back changeset}}>{{backText}}</button>
+        <button type="button" class="btn btn-default" {{action save changeset}}>{{saveText}}</button>
+    {{/if}}
+    {{#if changeset.isDirty}}
+        <button class="btn btn-success" {{action reset changeset}}>Reset</button>
+    {{else if changeset.isInvalid}}
+        <button class="btn btn-success" {{action reset changeset}}>Reset</button>
+    {{else}}
+        <button disabled=true class="btn btn-success">Reset</button>
+    {{/if}}
 </div>
 

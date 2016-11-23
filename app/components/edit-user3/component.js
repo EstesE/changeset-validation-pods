@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import Changeset from 'ember-changeset';
+import Validations from 'changeset-validation-pods/user3/validations';
+import lookupValidator from 'ember-changeset-validations';
 
 const { Component, get } = Ember;
 
 export default Ember.Component.extend({
-    
+    Validations,
     iterate: function(obj, stack) {
         var ret = {};
         for (var property in obj) {
@@ -21,8 +23,7 @@ export default Ember.Component.extend({
 
     init() {
         this._super(...arguments);
-        let validator = get(this, 'validate');
         var flatModel = this.get('model.flatModel');
-        this.changeset = new Changeset(flatModel, validator);
+        this.changeset = new Changeset(flatModel, lookupValidator(Validations), Validations);
     }
 });
