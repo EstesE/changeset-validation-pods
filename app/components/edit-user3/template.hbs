@@ -11,17 +11,21 @@
 
 <div class="col-md-6">
     <div><label>Country</label></div>
-    {{input type="text" value=changeset.address.country}}
+    {{input type="text" value=changeset.address$country}}
 </div>
 
 <div class="col-md-6">
     <div><label>Town</label></div>
-    {{input type="text" value=changeset.address.town}}
+    {{input type="text" value=changeset.address$town}}
+</div>
+
+<div class="col-md-6">
+    <div><label>State Name</label></div>
+    {{input type="text" value=changeset.address$state$name}}
 </div>
 
 <div class="col-md-12" style="margin-top: 25px;">
-    <button type="button" class="btn btn-primary" {{action back user}}>{{backText}}</button>
-    <button type="button" class="btn btn-default" {{action save user}}>{{saveText}}</button>
+    <button type="button" class="btn btn-primary" {{action back changeset}}>{{backText}}</button>
+    <button type="button" class="btn btn-default" {{action save changeset}}>{{saveText}}</button>
 </div>
-
 
